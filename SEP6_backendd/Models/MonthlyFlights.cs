@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace SEP6_backendd.Models
 {
-    public class Flights
+    public class MonthlyFlights : Flights
     {
-        public int count { get; set; }
+        public int month { get; set; }
     }
 }

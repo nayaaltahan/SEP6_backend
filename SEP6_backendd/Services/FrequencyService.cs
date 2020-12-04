@@ -36,7 +36,7 @@ namespace SEP6_backendd.Services
             if (_monthlyFlightsOrigin == null || _monthlyFlightsOrigin.Count == 0)
             {
                 var monthlyFlightsOrigin =
-                    _applicationDbContext.GetMonthlyFlightsOrigin("SELECT origin , MONTH , COUNT(origin) FROM `flights` GROUP BY origin , MONTH ORDER BY origin , month ASC");
+                    _applicationDbContext.GetMonthlyFlightsOrigin();
                 _monthlyFlightsOrigin = monthlyFlightsOrigin;
             }
 

@@ -39,6 +39,7 @@ namespace SEP6_backendd
             services.AddSingleton<IFrequencyService, FrequencyService>();
             services.AddSingleton<IDestinationService, DestinationService>();
             services.AddSingleton<ITrackerService, TrackerService>();
+            services.AddSingleton<IWeatherService, WeatherService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline

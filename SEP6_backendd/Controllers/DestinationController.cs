@@ -25,6 +25,11 @@ namespace SEP6_backendd.Controllers
 
                 return Ok(_destinationService.GetDestinationFlights());
             }
+            if (id == "top10Origin")
+            {
+
+                return Ok(_destinationService.GetDestinationOrigins());
+            }
             else
             {
                 return NoContent();

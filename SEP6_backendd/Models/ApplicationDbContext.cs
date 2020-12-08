@@ -355,6 +355,137 @@ namespace SEP6_backendd.Models
             return temperaturesOrigins;
         }
 
+        public List<Manufacturer> GetManufacturers200()
+        {
+            List<Manufacturer> manufacturers = new List<Manufacturer>();
+            try
+            {
+                var conn = ConnectToDB();
+
+                var rdr = ExecuteQuery("SELECT count(*), manufacturer FROM planes group by manufacturer HAVING count(*) > 200 ;", conn);
+
+                while (rdr.Read())
+                {
+                    var manufacturer = new Manufacturer()
+                    {
+                        Count = rdr.GetInt16(0),
+                        Name = rdr.GetString(1)
+                    };
+                    manufacturers.Add(manufacturer);
+                }
+
+                CloseConnections(rdr, conn);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return manufacturers;
+        }
+
+        public List<Manufacturer> GetManufacturersFlights()
+        {
+            List<Manufacturer> manufacturers = new List<Manufacturer>();
+            try
+            {
+                var conn = ConnectToDB();
+
+                var rdr = ExecuteQuery("SELECT planes.manufacturer, COUNT(flights.origin) FROM planes join flights ON planes.tailnum = flights.tailnum WHERE planes.manufacturer IN (SELECT manufacturer FROM planes group by manufacturer HAVING count(*) > 200 ) GROUP BY planes.manufacturer ;", conn);
+
+                while (rdr.Read())
+                {
+                    var manufacturer = new Manufacturer()
+                    {
+                        Name = rdr.GetString(0),
+                        Count = rdr.GetInt32(1)
+                    };
+                    manufacturers.Add(manufacturer);
+                }
+
+                CloseConnections(rdr, conn);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return manufacturers;
+        }
+
+        public List<Airbus> GetAirbuses()
+        {
+            List<Airbus> airbuses = new List<Airbus>();
+            try
+            {
+                var conn = ConnectToDB();
+
+                var rdr = ExecuteQuery("SELECT count(*), model FROM planes group by model ; ", conn);
+
+                while (rdr.Read())
+                {
+                    var airbus = new Airbus
+                    {
+                        Count = rdr.GetInt16(0),
+                        Model = rdr.GetString(1)
+                    };
+                    airbuses.Add(airbus);
+                }
+
+                CloseConnections(rdr, conn);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return airbuses;
+        }
+
+        public List<DestinationOrigin> GetDestinationOrigins()
+        {
+            List<DestinationOrigin> originFlights = new List<DestinationOrigin>();
+            try
+            {
+                var conn = ConnectToDB();
+
+                var rdr = ExecuteQuery("SELECT dest , COUNT(dest), origin FROM flights WHERE dest IN (select * FROM (Select dest FROM flights GROUP BY dest ORDER BY COUNT(dest) DESC LIMIT 0,10) AS t1) GROUP BY dest, origin ORDER BY origin, dest;", conn);
+
+                string origin = "";
+                int j = 0;
+                while (rdr.Read() && j < 3)
+                {
+                    var originFlight = new DestinationOrigin();
+                    originFlight.Origin= rdr.GetString(2);
+                    origin = originFlight.Origin;
+                    var flights = new List<DestinationFlights>();
+                    do
+                    {
+                        var flight = new DestinationFlights
+                        {
+                            Destination = rdr.GetString(0),
+                            count = rdr.GetInt16(1)
+                        };
+                        flights.Add(flight);
+                        origin = rdr.GetString(2);
+                    } while (rdr.Read() && rdr.GetString(2) == origin);
+
+                    originFlight.Flights = flights;
+                    originFlights.Add(originFlight);
+                    
+                    j++;
+                }
+
+                CloseConnections(rdr, conn);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return originFlights;
+        }
+
         public MySqlConnection ConnectToDB()
         {
             MySqlConnection conn = new MySqlConnection("server=sep6.cr8rrqpu4nwe.eu-west-1.rds.amazonaws.com;user=admin;password=Admin123;database=sep6_db");

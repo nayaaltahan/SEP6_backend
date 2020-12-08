@@ -6,10 +6,10 @@ using SEP6_backendd.Models;
 
 namespace SEP6_backendd.Services
 {
-    public interface IDestinationService
+    public interface IPlanesService
     {
-        List<DestinationFlights> GetDestinationFlights();
-
-        List<DestinationOrigin> GetDestinationOrigins();
+        List<Manufacturer> GetManufacturers200();
+        List<Manufacturer> GetManufacturersFlights();
+        List<Airbus> GetAirbuses();
     }
 }

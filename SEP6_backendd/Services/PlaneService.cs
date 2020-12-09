@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SEP6_backendd.Models;
+using SEP6_backendd.Repositories;
 
 namespace SEP6_backendd.Services
 {
@@ -11,18 +12,18 @@ namespace SEP6_backendd.Services
         private List<Manufacturer> _manufacturers;
         private List<Manufacturer> _manufacturersFlights;
         private List<Airbus> _airbuses;
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly PlaneRepository _planeRepository;
 
         public PlaneService()
         {
-            _applicationDbContext = new ApplicationDbContext();
+            _planeRepository = new PlaneRepository();
         }
 
         public List<Manufacturer> GetManufacturers200()
         {
             if (_manufacturers == null || _manufacturers.Count == 0)
             {
-                _manufacturers = _applicationDbContext.GetManufacturers200();
+                _manufacturers = _planeRepository.GetManufacturers200();
             }
 
             return _manufacturers;
@@ -32,7 +33,7 @@ namespace SEP6_backendd.Services
         {
             if (_manufacturersFlights == null || _manufacturersFlights.Count == 0)
             {
-                _manufacturersFlights = _applicationDbContext.GetManufacturersFlights();
+                _manufacturersFlights = _planeRepository.GetManufacturersFlights();
             }
 
             return _manufacturersFlights;
@@ -42,7 +43,7 @@ namespace SEP6_backendd.Services
         {
             if (_airbuses == null || _airbuses.Count == 0)
             {
-                _airbuses = _applicationDbContext.GetAirbuses();
+                _airbuses = _planeRepository.GetAirbuses();
             }
 
             return _airbuses;

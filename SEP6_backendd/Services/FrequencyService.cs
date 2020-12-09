@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SEP6_backendd.Models;
+using SEP6_backendd.Repositories;
 
 namespace SEP6_backendd.Services
 {
@@ -12,11 +13,11 @@ namespace SEP6_backendd.Services
         private List<MonthlyFlightsOrigin> _monthlyFlightsOrigin;
 
 
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly FrequencyRepository _frequencyRepository;
 
         public FrequencyService()
         {
-            _applicationDbContext = new ApplicationDbContext();
+            _frequencyRepository = new FrequencyRepository();
         }
 
         public List<MonthlyFlights> GetMonthlyFlights()
@@ -24,7 +25,7 @@ namespace SEP6_backendd.Services
             if (_monthlyFlights == null || _monthlyFlights.Count == 0)
             {
                 var monthlyFlights =
-                    _applicationDbContext.GetMonthlyFlights("SELECT MONTH , COUNT(MONTH)\r\nFROM `flights`\r\nGROUP BY MONTH ORDER BY MONTH ASC;");
+                    _frequencyRepository.GetMonthlyFlights("SELECT MONTH , COUNT(MONTH)\r\nFROM `flights`\r\nGROUP BY MONTH ORDER BY MONTH ASC;");
                 _monthlyFlights = monthlyFlights;
             }
 
@@ -36,7 +37,7 @@ namespace SEP6_backendd.Services
             if (_monthlyFlightsOrigin == null || _monthlyFlightsOrigin.Count == 0)
             {
                 var monthlyFlightsOrigin =
-                    _applicationDbContext.GetMonthlyFlightsOrigin();
+                    _frequencyRepository.GetMonthlyFlightsOrigin();
                 _monthlyFlightsOrigin = monthlyFlightsOrigin;
             }
 

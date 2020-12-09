@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SEP6_backendd.Models;
+using SEP6_backendd.Repositories;
 
 namespace SEP6_backendd.Services
 {
@@ -12,18 +13,18 @@ namespace SEP6_backendd.Services
         private List<Delay> _delays;
 
 
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly TrackerRepository _trackerRepository;
 
         public TrackerService()
         {
-            _applicationDbContext = new ApplicationDbContext();
+            _trackerRepository = new TrackerRepository();
         }
 
         public List<Airtime> GetMeanAirtime()
         {
             if (_airtimes == null || _airtimes.Count == 0)
             {
-                _airtimes = _applicationDbContext.GetAirtime();
+                _airtimes = _trackerRepository.GetAirtime();
             }
             return _airtimes;
         }
@@ -32,7 +33,7 @@ namespace SEP6_backendd.Services
         {
             if (_delays == null || _delays.Count == 0)
             {
-                _delays = _applicationDbContext.GetDelays();
+                _delays = _trackerRepository.GetDelays();
             }
             return _delays;
         }

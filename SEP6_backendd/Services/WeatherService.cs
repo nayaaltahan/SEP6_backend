@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SEP6_backendd.Models;
+using SEP6_backendd.Repositories;
 
 namespace SEP6_backendd.Services
 {
@@ -18,18 +19,18 @@ namespace SEP6_backendd.Services
 
         private List<TemperaturesOrigin> _meanTemperaturesOrigin;
 
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly WeatherRepository _weatherRepository;
 
         public WeatherService()
         {
-            _applicationDbContext = new ApplicationDbContext();
+            _weatherRepository = new WeatherRepository();
         }
 
         public List<Weather> getWeathersInOrigins()
         {
             if (_weathers == null || _weathers.Count == 0)
             {
-                _weathers = _applicationDbContext.GetWeathersInOrigin();
+                _weathers = _weatherRepository.GetWeathersInOrigin();
             }
 
             return _weathers;
@@ -39,7 +40,7 @@ namespace SEP6_backendd.Services
         {
             if (_temperaturesAtts == null || _temperaturesAtts.Count == 0)
             {
-                _temperaturesAtts = _applicationDbContext.GetTemperatureAttributes();
+                _temperaturesAtts = _weatherRepository.GetTemperatureAttributes();
             }
 
             return _temperaturesAtts;
@@ -49,7 +50,7 @@ namespace SEP6_backendd.Services
         {
             if (_temperatures == null || _temperatures.Count == 0)
             {
-                _temperatures = _applicationDbContext.GetTemperatureJfk();
+                _temperatures = _weatherRepository.GetTemperatureJfk();
             }
 
             return _temperatures;
@@ -59,7 +60,7 @@ namespace SEP6_backendd.Services
         {
             if (_meanTemperatures == null || _meanTemperatures.Count == 0)
             {
-                _meanTemperatures = _applicationDbContext.GetMeanTemperatureJfk();
+                _meanTemperatures = _weatherRepository.GetMeanTemperatureJfk();
             }
 
             return _meanTemperatures;
@@ -69,7 +70,7 @@ namespace SEP6_backendd.Services
         {
             if (_meanTemperaturesOrigin == null || _meanTemperaturesOrigin.Count == 0)
             {
-                _meanTemperaturesOrigin = _applicationDbContext.GetMeanTemperatureOrigins();
+                _meanTemperaturesOrigin = _weatherRepository.GetMeanTemperatureOrigins();
             }
 
             return _meanTemperaturesOrigin;

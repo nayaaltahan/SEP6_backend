@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SEP6_backendd.Models;
+using SEP6_backendd.Repositories;
 
 namespace SEP6_backendd.Services
 {
@@ -11,18 +12,18 @@ namespace SEP6_backendd.Services
         public List<DestinationFlights> DestinationFlights { get; set; }
         public List<DestinationOrigin> DestinationOrigins { get; set; }
 
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly DestinationRepository _destinationRepository;
 
         public DestinationService()
         {
-            _applicationDbContext = new ApplicationDbContext();
+            _destinationRepository = new DestinationRepository();
         }
 
         public List<DestinationFlights> GetDestinationFlights()
         {
             if (DestinationFlights == null || DestinationFlights.Count == 0)
             {
-                DestinationFlights = _applicationDbContext.GetDestinationFlights();
+                DestinationFlights = _destinationRepository.GetDestinationFlights();
             }
             return DestinationFlights;
         }
@@ -31,7 +32,7 @@ namespace SEP6_backendd.Services
         {
             if (DestinationOrigins == null || DestinationOrigins.Count == 0)
             {
-                DestinationOrigins = _applicationDbContext.GetDestinationOrigins();
+                DestinationOrigins = _destinationRepository.GetDestinationOrigins();
             }
             return DestinationOrigins;
         }

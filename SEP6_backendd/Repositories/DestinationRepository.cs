@@ -54,13 +54,11 @@ namespace SEP6_backendd.Repositories
 
                 var rdr = _dbContext.ExecuteQuery("SELECT dest , COUNT(dest), origin FROM flights WHERE dest IN (select * FROM (Select dest FROM flights GROUP BY dest ORDER BY COUNT(dest) DESC LIMIT 0,10) AS t1) GROUP BY dest, origin ORDER BY origin, dest;", conn);
 
-                string origin = "";
-                int j = 0;
+                var j = 0;
                 while (rdr.Read() && j < 3)
                 {
-                    var originFlight = new DestinationOrigin();
-                    originFlight.Origin = rdr.GetString(2);
-                    origin = originFlight.Origin;
+                    var originFlight = new DestinationOrigin {Origin = rdr.GetString(2)};
+                    var origin = originFlight.Origin;
                     var flights = new List<DestinationFlights>();
                     do
                     {

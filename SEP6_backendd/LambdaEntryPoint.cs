@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +11,7 @@ namespace SEP6_backendd
     /// This class extends from APIGatewayProxyFunction which contains the method FunctionHandlerAsync which is the 
     /// actual Lambda function entry point. The Lambda handler field should be set to
     /// 
-    /// SEP6_backendd::SEP6_backendd.LambdaEntryPoint::FunctionHandlerAsync
+    /// AWSServerless1::AWSServerless1.LambdaEntryPoint::FunctionHandlerAsync
     /// </summary>
     public class LambdaEntryPoint :
 
@@ -34,18 +35,11 @@ namespace SEP6_backendd
         /// <param name="builder"></param>
         protected override void Init(IWebHostBuilder builder)
         {
-            builder
+            builder.UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>();
         }
 
-        /// <summary>
-        /// Use this override to customize the services registered with the IHostBuilder. 
-        /// 
-        /// It is recommended not to call ConfigureWebHostDefaults to configure the IWebHostBuilder inside this method.
-        /// Instead customize the IWebHostBuilder in the Init(IWebHostBuilder) overload.
-        /// </summary>
-        /// <param name="builder"></param>
-        protected void Init(IHostBuilder builder)
+        protected override void Init(IHostBuilder builder)
         {
         }
     }

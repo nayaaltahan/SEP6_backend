@@ -20,6 +20,7 @@ namespace SEP6_backendd.Repositories
             var conn = new MySqlConnection("server=sep6.cr8rrqpu4nwe.eu-west-1.rds.amazonaws.com;user=admin;password=Admin123;database=sep6_db");
             Console.WriteLine("Connecting to MySQL...");
             conn.Open();
+            Console.WriteLine("Connected to MySQL...");
             return conn;
         }
 
